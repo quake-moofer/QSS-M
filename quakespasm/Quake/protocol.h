@@ -347,6 +347,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define svcfte_updateentities		86
 //spike -- end
 
+// begin rook / woods 8/31/2020
+
+// JPG - added ProQuake commands
+#define pqc_nop			1
+#define pqc_new_team	2
+#define pqc_erase_team	3
+#define pqc_team_frags	4
+#define	pqc_match_time	5
+#define pqc_match_reset	6
+#define pqc_ping_times	7
+// JPG - end mod
+
+
+// end rook / woods 8/31/2020
+
+
+
+
 //
 // client to server
 //
@@ -458,10 +476,10 @@ typedef struct entity_state_s
 	unsigned char	colormod[3];	//spike -- entity tints, *32
 	unsigned char	alpha;		//johnfitz -- added
 	unsigned int	solidsize;	//for csqc prediction logic.
-					#define ES_SOLID_NOT 0
-					#define ES_SOLID_BSP 31
-					#define ES_SOLID_HULL1 0x80201810
-					#define ES_SOLID_HULL2 0x80401820
+#define ES_SOLID_NOT 0
+#define ES_SOLID_BSP 31
+#define ES_SOLID_HULL1 0x80201810
+#define ES_SOLID_HULL2 0x80401820
 } entity_state_t;
 #define EFLAGS_STEP				1
 //#define EFLAGS_GLOWTRAIL		2
@@ -480,7 +498,7 @@ typedef struct
 	float	seconds;	//servertime-previous->servertime
 	vec3_t	viewangles;
 
-// intended velocities
+	// intended velocities
 	float	forwardmove;
 	float	sidemove;
 	float	upmove;

@@ -40,10 +40,26 @@ typedef struct
 	int		frags;
 	int		colors;			// two 4 bit fields
 	int		ping;
-	byte	translations[VID_GRADES*256];
+	byte	translations[VID_GRADES * 256];
 
 	char	userinfo[8192];
 } scoreboard_t;
+
+// begin rook / woods 8/31/2021
+
+// JPG - added this for teamscore status bar and proquake messages
+typedef struct
+{
+	int colors;
+	int frags;
+} teamscore_t;
+
+
+
+// end rook / woods 8/31/2021
+
+
+
 
 typedef struct
 {
@@ -83,11 +99,11 @@ typedef struct
 typedef struct
 {
 	int		entity;
-	struct qmodel_s	*model;
+	struct qmodel_s* model;
 	float	endtime;
 	vec3_t	start, end;
-	const char *trailname;
-	struct trailstate_s *trailstate;
+	const char* trailname;
+	struct trailstate_s* trailstate;
 } beam_t;
 
 #define	MAX_MAPSTRING	2048
@@ -95,9 +111,9 @@ typedef struct
 #define	MAX_DEMONAME	16
 
 typedef enum {
-ca_dedicated, 		// a dedicated server with no ability to start a client
-ca_disconnected, 	// full screen console with no connection
-ca_connected		// valid netcon, talking to a server
+	ca_dedicated, 		// a dedicated server with no ability to start a client
+	ca_disconnected, 	// full screen console with no connection
+	ca_connected		// valid netcon, talking to a server
 } cactive_t;
 
 //
@@ -108,7 +124,7 @@ typedef struct
 {
 	cactive_t	state;
 
-// personalization data sent to server
+	// personalization data sent to server
 	char		spawnparms[MAX_MAPSTRING];	// to restart a level
 
 // demo loop control
@@ -120,20 +136,20 @@ typedef struct
 	qboolean	demorecording;
 	qboolean	demoplayback;
 
-// did the user pause demo playback? (separate from cl.paused because we don't
-// want a svc_setpause inside the demo to actually pause demo playback).
+	// did the user pause demo playback? (separate from cl.paused because we don't
+	// want a svc_setpause inside the demo to actually pause demo playback).
 	qboolean	demopaused;
 
 	qboolean	timedemo;
 	int		forcetrack;		// -1 = use normal cd track
-	FILE		*demofile;
+	FILE* demofile;
 	int		td_lastframe;		// to meter out one message a frame
 	int		td_startframe;		// host_framecount at start
 	float		td_starttime;		// realtime at second frame of timedemo
 
 // connection information
 	int		signon;			// 0 to SIGNONS
-	struct qsocket_s	*netcon;
+	struct qsocket_s* netcon;
 	sizebuf_t	message;		// writing buffer to send to server
 
 //downloads don't restart/fail when the server sends random serverinfo packets
@@ -141,14 +157,14 @@ typedef struct
 	{
 		qboolean active;
 		unsigned int size;
-		FILE	*file;
+		FILE* file;
 		char	current[MAX_QPATH];	//also prevents us from repeatedly trying to download the same file
 		char	temp[MAX_OSPATH];		//the temp filename for the download, will be renamed to current
 		float	starttime;
 	} download;
 
 	char userinfo[8192];
-//Spike -- menuqc stuff.
+	//Spike -- menuqc stuff.
 	qcvm_t menu_qcvm;
 } client_static_t;
 
@@ -172,7 +188,7 @@ typedef struct
 // information for local display
 	int			stats[MAX_CL_STATS];	// health, etc
 	float		statsf[MAX_CL_STATS];
-	char		*statss[MAX_CL_STATS];
+	char* statss[MAX_CL_STATS];
 	int			items;			// inventory bit flags
 	float	item_gettime[32];	// cl.time of aquiring item, for blinking
 	float		faceanimtime;	// use anim frame if cl.time < this
@@ -222,9 +238,9 @@ typedef struct
 //
 // information that is static for the entire time connected to a server
 //
-	struct qmodel_s		*model_precache[MAX_MODELS];
-	struct qmodel_s		*model_precache_csqc[MAX_MODELS];
-	struct sfx_s		*sound_precache[MAX_SOUNDS];
+	struct qmodel_s* model_precache[MAX_MODELS];
+	struct qmodel_s* model_precache_csqc[MAX_MODELS];
+	struct sfx_s* sound_precache[MAX_SOUNDS];
 
 	char		mapname[128];
 	char		levelname[128];	// for display on solo scoreboard //johnfitz -- was 40.
@@ -232,26 +248,26 @@ typedef struct
 	int			maxclients;
 	int			gametype;
 
-// refresh related state
-	struct qmodel_s	*worldmodel;	// cl_entitites[0].model
-	struct efrag_s	*free_efrags;
+	// refresh related state
+	struct qmodel_s* worldmodel;	// cl_entitites[0].model
+	struct efrag_s* free_efrags;
 	int			num_efrags;
-//	int			num_entities;	// held in cl_entities array
-//	int			num_statics;	// held in cl_staticentities array
+	//	int			num_entities;	// held in cl_entities array
+	//	int			num_statics;	// held in cl_staticentities array
 	entity_t	viewent;			// the gun model
 
-	entity_t	*entities;	//spike -- moved into here
+	entity_t* entities;	//spike -- moved into here
 	int			max_edicts;
 	int			num_entities;
 
-	entity_t	**static_entities; //spike -- was static
+	entity_t** static_entities; //spike -- was static
 	int			max_static_entities;
 	int			num_statics;
 
 	int			cdtrack, looptrack;	// cd audio
 
 // frag scoreboard
-	scoreboard_t	*scores;		// [cl.maxclients]
+	scoreboard_t* scores;		// [cl.maxclients]
 
 	unsigned	protocol; //johnfitz
 	unsigned	protocolflags;
@@ -263,12 +279,12 @@ typedef struct
 	qboolean	protocol_particles;
 	struct
 	{
-		const char *name;
+		const char* name;
 		int index;
 	} particle_precache[MAX_PARTICLETYPES];
 	struct
 	{
-		const char *name;
+		const char* name;
 		int index;
 	} local_particle_precache[MAX_PARTICLETYPES];
 #endif
@@ -282,9 +298,9 @@ typedef struct
 	{
 		PRINT_NONE,
 		PRINT_PINGS,
-//		PRINT_STATUSINFO,
-//		PRINT_STATUSPLAYER,
-//		PRINT_STATUSIP,
+		//		PRINT_STATUSINFO,
+		//		PRINT_STATUSPLAYER,
+		//		PRINT_STATUSIP,
 	} printtype;
 	int printplayer;
 	float expectingpingtimes;
@@ -304,13 +320,37 @@ typedef struct
 	qcvm_t	qcvm;	//for csqc.
 	float	csqc_sensitivity;	//scaler for sensitivity
 	size_t	ssqc_to_csqc_max;
-	edict_t **ssqc_to_csqc;		//to find the csqc ent for an ssqc index.
+	edict_t** ssqc_to_csqc;		//to find the csqc ent for an ssqc index.
 
 	qboolean	listener_defined;
 	vec3_t		listener_origin;
 	vec3_t		listener_axis[3];
 
 	char serverinfo[8192];	// \key\value infostring data.
+
+
+	// begin rook / woods 8/31/2021
+
+
+	teamscore_t* teamscores;		// [13] - JPG for teamscores in status bar                   
+	qboolean		teamgame;			// JPG = true for match, false for individual
+	int				minutes;			// JPG - for match time in status bar
+	int				seconds;			// JPG - for match time in status bar
+	double			last_match_time;	// JPG - last time match time was obtained
+	double			last_ping_time;		// JPG - last time pings were obtained
+	double			version_time;		// 
+	qboolean		console_ping;		// JPG 1.05 - true if the ping came from the console
+	double			last_status_time;	// JPG 1.05 - last time status was obtained
+	qboolean		console_status;		// JPG 1.05 - true if the status came from the console
+	double			match_pause_time;	// JPG - time that match was paused (or 0)
+	vec3_t			lerpangles;			// JPG - angles now used by view.c so that smooth chasecam doesn't fuck up demos
+	vec3_t			death_location;		// JPG 3.20 - used for %d formatting
+
+
+	// end rook / woods 8/31/2021
+
+
+
 } client_state_t;
 
 
@@ -362,7 +402,7 @@ extern	lightstyle_t	cl_lightstyle[MAX_LIGHTSTYLES];
 extern	dlight_t		cl_dlights[MAX_DLIGHTS];
 extern	entity_t		cl_temp_entities[MAX_TEMP_ENTITIES];
 extern	beam_t			cl_beams[MAX_BEAMS];
-extern	entity_t		**cl_visedicts;
+extern	entity_t** cl_visedicts;
 extern	int				cl_numvisedicts;
 extern	int				cl_maxvisedicts;	//extended if we exceeded it the previous frame
 
@@ -371,22 +411,22 @@ extern	int				cl_maxvisedicts;	//extended if we exceeded it the previous frame
 //
 // cl_main
 //
-dlight_t *CL_AllocDlight (int key);
-void	CL_DecayLights (void);
+dlight_t* CL_AllocDlight(int key);
+void	CL_DecayLights(void);
 
-void CL_Init (void);
+void CL_Init(void);
 
-void CL_EstablishConnection (const char *host);
-void CL_Signon1 (void);
-void CL_Signon2 (void);
-void CL_Signon3 (void);
-void CL_Signon4 (void);
+void CL_EstablishConnection(const char* host);
+void CL_Signon1(void);
+void CL_Signon2(void);
+void CL_Signon3(void);
+void CL_Signon4(void);
 
-void CL_Disconnect (void);
-void CL_Disconnect_f (void);
-void CL_NextDemo (void);
+void CL_Disconnect(void);
+void CL_Disconnect_f(void);
+void CL_NextDemo(void);
 
-void SV_UpdateInfo(int edict, const char *keyname, const char *value);
+void SV_UpdateInfo(int edict, const char* keyname, const char* value);
 
 //
 // cl_input
@@ -401,73 +441,73 @@ extern	kbutton_t	in_mlook, in_klook;
 extern 	kbutton_t 	in_strafe;
 extern 	kbutton_t 	in_speed;
 
-void CL_InitInput (void);
-void CL_AccumulateCmd (void);
-void CL_SendCmd (void);
-void CL_SendMove (const usercmd_t *cmd);
-int  CL_ReadFromServer (void);
-void CL_AdjustAngles (void);
-void CL_BaseMove (usercmd_t *cmd);
-void CL_FinishMove(usercmd_t *cmd);
+void CL_InitInput(void);
+void CL_AccumulateCmd(void);
+void CL_SendCmd(void);
+void CL_SendMove(const usercmd_t* cmd);
+int  CL_ReadFromServer(void);
+void CL_AdjustAngles(void);
+void CL_BaseMove(usercmd_t* cmd);
+void CL_FinishMove(usercmd_t* cmd);
 
 void CL_Download_Data(void);
 qboolean CL_CheckDownloads(void);
 
-void CL_ParseEffect (qboolean big);
-void CL_UpdateBeam (struct qmodel_s *m, const char *trailname, const char *impactname, int ent, float *start, float *end);
-void CL_ParseTEnt (void);
-void CL_UpdateTEnts (void);
+void CL_ParseEffect(qboolean big);
+void CL_UpdateBeam(struct qmodel_s* m, const char* trailname, const char* impactname, int ent, float* start, float* end);
+void CL_ParseTEnt(void);
+void CL_UpdateTEnts(void);
 
 void CL_FreeState(void);
-void CL_ClearState (void);
+void CL_ClearState(void);
 void CL_ClearTrailStates(void);
 
 //
 // cl_demo.c
 //
-void CL_StopPlayback (void);
-int CL_GetMessage (void);
+void CL_StopPlayback(void);
+int CL_GetMessage(void);
 
-void CL_Stop_f (void);
-void CL_Record_f (void);
-void CL_PlayDemo_f (void);
-void CL_TimeDemo_f (void);
+void CL_Stop_f(void);
+void CL_Record_f(void);
+void CL_PlayDemo_f(void);
+void CL_TimeDemo_f(void);
 
 //
 // cl_parse.c
 //
-void CL_ParseServerMessage (void);
+void CL_ParseServerMessage(void);
 void CL_RegisterParticles(void);
 //void CL_NewTranslation (int slot);
 
 //
 // view
 //
-void V_StartPitchDrift (void);
-void V_StopPitchDrift (void);
+void V_StartPitchDrift(void);
+void V_StopPitchDrift(void);
 
-void V_RenderView (void);
+void V_RenderView(void);
 //void V_UpdatePalette (void); //johnfitz
-void V_Register (void);
-void V_ParseDamage (void);
-void V_SetContentsColor (int contents);
+void V_Register(void);
+void V_ParseDamage(void);
+void V_SetContentsColor(int contents);
 
 //
 // cl_tent
 //
-void CL_InitTEnts (void);
-void CL_SignonReply (void);
-float CL_TraceLine (vec3_t start, vec3_t end, vec3_t impact, vec3_t normal, int *ent);
+void CL_InitTEnts(void);
+void CL_SignonReply(void);
+float CL_TraceLine(vec3_t start, vec3_t end, vec3_t impact, vec3_t normal, int* ent);
 
 //
 // chase
 //
 extern	cvar_t	chase_active;
 
-void Chase_Init (void);
-void TraceLine (vec3_t start, vec3_t end, vec3_t impact);
-void Chase_UpdateForClient (void);	//johnfitz
-void Chase_UpdateForDrawing (void);	//johnfitz
+void Chase_Init(void);
+void TraceLine(vec3_t start, vec3_t end, vec3_t impact);
+void Chase_UpdateForClient(void);	//johnfitz
+void Chase_UpdateForDrawing(void);	//johnfitz
 
 #endif	/* _CLIENT_H_ */
 
