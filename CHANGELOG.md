@@ -6,7 +6,7 @@
 
 - Match clock / game clock to HUD (r00k from JPG)
 - LOC support for team communication (r00k from JPG)
-- Fast wwim for spacebar (r00k from JPG)
+- Fast swim for spacebar (r00k from JPG)
 
 ### Changed
 
