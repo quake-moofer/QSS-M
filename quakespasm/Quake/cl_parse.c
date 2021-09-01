@@ -1385,6 +1385,10 @@ static void CL_ParseServerInfo(void)
 	}
 	cl.scores = (scoreboard_t*)Hunk_AllocName(cl.maxclients * sizeof(*cl.scores), "scores");
 
+	cl.teamscores = Hunk_AllocName(14 * sizeof(*cl.teamscores), "teamscores"); // JPG - for teamscore status bar  rook / woods
+
+
+
 	// parse gametype
 	cl.gametype = MSG_ReadByte();
 
